@@ -112,7 +112,7 @@ class DetalheCarroView extends GetView<DetalheCarroController> {
 
                   Obx(() => text(controller.formCarroController.carroForm.value.nome, fontSize: 20, bold: true),),
 
-                  // Obx(() => Text(carro.nome)),             
+                  // Obx(() => Text(carro.nome)),   teste         
               
               text(controller.formCarroController.carroForm.value.tipo, fontSize: 16)
             ],
