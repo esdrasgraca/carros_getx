@@ -46,9 +46,14 @@ class CarroController extends GetxController {
         );
      return erroList.value = response.msg;
     }
-
-
     // return carroList.map<CarroModel>((map) => CarroModel.fromMap(response)).toList();
+  }
+
+  uptadeCarros(CarroModel carro){
+    int index = carroList.value.indexWhere((element) => element.id == carro.id);
+
+    carroList[index] = carro;
+
   }
 }
 

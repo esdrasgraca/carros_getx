@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carros_getx/shared/models/carro_model.dart';
 import 'package:carros_getx/views/carros/detalheCarro/detalheCarro_controller.dart';
+import 'package:carros_getx/views/carros/formCarro/formCarro_controller.dart';
 import 'package:carros_getx/views/carros/widget/text.dart';
 import 'package:flutter/material.dart';
 
@@ -23,7 +24,7 @@ import '../carro_cotroller.dart';
 //   _DetalheCarroPageState createState() => _DetalheCarroPageState();
 // }
 
-class DetalheCarroView extends GetView<DetalheCarroController> {
+class DetalheCarroView extends GetView<FormCarroController> {
   
   //use 'controller' variable to access controller
 
@@ -31,7 +32,7 @@ class DetalheCarroView extends GetView<DetalheCarroController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(controller.formCarroController.carroForm.value.nome),
+        title: Text(controller.carroForm.value.nome),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.place),
@@ -62,7 +63,7 @@ class DetalheCarroView extends GetView<DetalheCarroController> {
           )
         ],
       ),
-      body: Obx(() =>  _body(),)
+      body:  Obx(() => _body()),
     );
   }
 
@@ -73,7 +74,7 @@ class DetalheCarroView extends GetView<DetalheCarroController> {
   _onClickPopupMenu(String value) {
     switch (value) {
       case "Editar":
-        Get.toNamed('/carros/formsCarros/', arguments: controller.formCarroController.carroForm.value);
+        Get.toNamed('/carros/formsCarros/', arguments: controller.carroForm.value);
         // push(context, CarroFormPage(carro: carro));
         break;
       case "Deletar":
@@ -91,7 +92,7 @@ class DetalheCarroView extends GetView<DetalheCarroController> {
       child: ListView(
         children: <Widget>[
           CachedNetworkImage(
-              imageUrl: controller.formCarroController.carroForm.value.urlFoto ??
+              imageUrl: controller.carroForm.value.urlFoto ??
                   "http://www.livroandroid.com.br/livro/carros/esportivos/Ferrari_FF.png"),
           _bloco1(),
           Divider(),
@@ -110,11 +111,17 @@ class DetalheCarroView extends GetView<DetalheCarroController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
 
-                  Obx(() => text(controller.formCarroController.carroForm.value.nome, fontSize: 20, bold: true),),
+                  text(controller.carroForm.value.nome, fontSize: 20, bold: true),
+
+                  // GetBuilder<FormCarroController>(
+                  //   init: FormCarroController(), // INIT IT ONLY THE FIRST TIME
+                  //   builder: (_) => 
+                  //     text(controller.carroForm.value.nome, fontSize: 20, bold: true),                    
+                  // ),
 
                   // Obx(() => Text(carro.nome)),   teste         
               
-              text(controller.formCarroController.carroForm.value.tipo, fontSize: 16)
+              text(controller.carroForm.value.tipo, fontSize: 16)
             ],
           ),
         ),
@@ -148,7 +155,7 @@ class DetalheCarroView extends GetView<DetalheCarroController> {
         SizedBox(
           height: 20,
         ),
-        text(controller.formCarroController.carroForm.value.descricao, fontSize: 16, bold: true),
+        text(controller.carroForm.value.descricao, fontSize: 16, bold: true),
         SizedBox(
           height: 20,
         ),

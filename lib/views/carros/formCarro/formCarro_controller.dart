@@ -2,10 +2,13 @@
 import 'package:carros_getx/shared/models/carro_model.dart';
 import 'package:carros_getx/shared/repositories/carros_repository.dart';
 import 'package:carros_getx/utils/api_response.dart';
+import 'package:carros_getx/views/carros/carro_cotroller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class FormCarroController extends GetxController {
+  CarroController carroController = Get.find();
+
   final Rx<CarroModel> carroForm = CarroModel().obs;
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();  
@@ -29,22 +32,22 @@ class FormCarroController extends GetxController {
   @override
   void onInit() {
     // TODO: implement onInit
-    super.onInit();
+    // super.onInit();
     carroForm.value = Get.arguments;
 
     if (carroForm != null) {
       tNome.text = carroForm.value.nome;
       tDesc.text = carroForm.value.descricao;
       radioIndex.value = getTipoInt(carroForm.value);
-    }
-
+    }    
   }
 
   String validateNome(String value) {
     if (value.isEmpty) {
-      return 'Informe o nome do carro.';
+      return 'Informe o nome do carro.';  
     }
-    return null;
+    return null;    
+
   }  
 
   String validateDescricao(String value) {
@@ -55,7 +58,7 @@ class FormCarroController extends GetxController {
   } 
 
   void onClickTipo(int value) {    
-      radioIndex.value = value;    
+      radioIndex.value = value;          
   }
 
   String _getTipo() {
@@ -78,6 +81,7 @@ class FormCarroController extends GetxController {
       default:
         return 2;
     }
+    
   }
 
   Future salvarCarro(CarroModel carro) async {
@@ -85,27 +89,27 @@ class FormCarroController extends GetxController {
       return;
     }
 
-    var c = carro ?? CarroModel();
+    // var c = carro ?? CarroModel();
 
-    c.nome = tNome.text; 
-    c.descricao = tDesc.text;
-    c.tipo = _getTipo();
+    // c.nome = tNome.text; 
+    // c.descricao = tDesc.text;
+    // c.tipo = _getTipo();
+    
+    carroForm.update((carroForm){
+          carroForm.nome      = tNome.text;
+          carroForm.descricao = tDesc.text;
+          carroForm.tipo= _getTipo();
+    });
+
+    carroController.uptadeCarros(carroForm.value);
 
     showProgress.value = true;
-    ApiResponse response = await CarrosRepository.save(
-      c, 
-      // c.id
-      // carro.id,
-      // tNome.text, 
-      // tDesc.text,
-      // _getTipo()
-    );
+    ApiResponse response = await CarrosRepository.save(carroForm.value);
     showProgress.value = false;
 
     if (response.ok){
-      carroForm.value = c;
+      
       Get.back();
-      // Get.toNamed('/carros/detalhes/', arguments: carroForm);
       Get.snackbar(
         "Atenção", 
         "Carro Salvo com Sucesso",
@@ -120,8 +124,7 @@ class FormCarroController extends GetxController {
         backgroundColor: Colors.red,
         colorText: Colors.white,
         );
-    }
-
+    }    
   }
 
 

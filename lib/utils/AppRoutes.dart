@@ -34,13 +34,13 @@ class AppRoutes {
       // parameter: ,
       name: '/carros/detalhes/' ,
       page: () => DetalheCarroView(), //(uncomment here to swith to todo app)TodoList(),
-      binding: DetalheCarroViewBinding(),
+      binding: CarroViewBinding(),
     ),
     GetPage(
       // parameter: ,
       name: '/carros/formsCarros/' ,
       page: () => FormcarroView(), //(uncomment here to swith to todo app)TodoList(),
-      binding: FormCarroViewBinding(),
+      binding: CarroViewBinding(),
     ),
   ];
 }
